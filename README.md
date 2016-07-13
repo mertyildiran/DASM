@@ -37,11 +37,11 @@ Later on, we will add the instructions PUSH, POP, CALL and RET to this list. Not
 
 ### Version
 
-0.0.7
+0.0.8
 
 ### Installation
 
-On the maintainer’s system(*Make sure you have **automake** installed*):
+On the maintainer’s system(*Make sure you have automake installed*):
 
 ```Shell
 aclocal # Set up an m4 environment
@@ -58,6 +58,7 @@ On the end-user’s system:
 make # Use Makefile to build the program
 make install # Use Makefile to install the program
 dasm example.asm
+```
 
 ### Special Thanks to
 
