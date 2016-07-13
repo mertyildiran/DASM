@@ -8,15 +8,15 @@ Dragon Assembler, a simple assembler for a made-up microprocessor architecture
 
 ## Basic Architecture
 
-    - 16-bit data bus.
-    - 12-bit address bus. Processor can address 4K of memory.
-    - 4 general purpose registers (GPR's). Will be expanded to 8 later.
-    - 4 special purpose registers: Program Counter (PC), Address Register (AR), Instruction Register (IR), FLAGS register. Stack pointer (SP) and stack-related operations (PUSH, POP, CALL, RET) will be added later.
+- 16-bit data bus.
+- 12-bit address bus. Processor can address 4K of memory.
+- 4 general purpose registers (GPR's). Will be expanded to 8 later.
+- 4 special purpose registers: Program Counter (PC), Address Register (AR), Instruction Register (IR), FLAGS register. Stack pointer (SP) and stack-related operations (PUSH, POP, CALL, RET) will be added later.
 
 Two addressing modes will be used:
 
-    - Register indirect: Uses the contents of a general purpose register as a pointer to a memory location(used by load/store instructions)
-    - PC relative: Adds the offset contained in the instruction to the contents of PC to obtain a pointer to a memory location (used by jump instructions)
+- Register indirect: Uses the contents of a general purpose register as a pointer to a memory location(used by load/store instructions)
+- PC relative: Adds the offset contained in the instruction to the contents of PC to obtain a pointer to a memory location (used by jump instructions)
 
 ## Instruction set
 
