@@ -34,11 +34,36 @@ Opcodes are 4 bits, and there are 16 different instruction types:
 
 Later on, we will add the instructions PUSH, POP, CALL and RET to this list. Note that all these instructions require a stack, and therefore we have to implement a stack and a SP register before implementing them.
 
+
+### Version
+
+0.0.7
+
+### Installation
+
+On the maintainer’s system(*Make sure you have **automake** installed*):
+
+```Shell
+aclocal # Set up an m4 environment
+autoconf # Generate configure from configure.ac
+automake --add-missing # Generate Makefile.in from Makefile.am
+./configure # Generate Makefile from Makefile.in
+make distcheck # Use Makefile to build and test a tarball to distribute
+```
+
+On the end-user’s system:
+
+```Shell
+./configure # Generate Makefile from Makefile.in
+make # Use Makefile to build the program
+make install # Use Makefile to install the program
+dasm example.asm
+
 ### Special Thanks to
 
 Asst. Prof. Mehmet Kadir Baran at Marmara University
 
-for this magnificent educational material about Microprocessors and for giving Dragon Assembler a head start with his example source code for a simple assembler.
+for [this](http://marmara-cse-lectures.com/comparch/) magnificent educational material about Microprocessors and for giving Dragon Assembler a head start with his example source code for a simple assembler.
 
 ### License
 
