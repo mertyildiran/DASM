@@ -11,7 +11,7 @@
 
 
 //Converts a hexadecimal string to integer.
-int hex2int( char* hex)
+int hex2int(char* hex)
 {
 	int result=0;
 
@@ -29,8 +29,14 @@ int hex2int( char* hex)
 }
 
 
-main()
+main(int argc, char *argv[])
 {
+
+	if( argc != 2 ) {
+		printf("Give only the assembly program's path as the ony argument. Instead of that %d argument(s) supplied.\n\tExample: dasm examples/counter.asm\n\tNow please try again.\n", argc);
+		exit(0);
+	}
+
 	FILE *fp;
         char line[100];
         char *token = NULL;
@@ -102,7 +108,7 @@ main()
 
 
 
-	fp = fopen("name_of_program","r");
+	fp = fopen(argv[1],"r");
 
 	if (fp != NULL)
 	{
