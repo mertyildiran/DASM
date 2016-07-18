@@ -37,7 +37,7 @@ Later on, we will add the instructions PUSH, POP, CALL and RET to this list. Not
 
 ### Version
 
-0.1.0
+0.1.1
 
 ### Installation
 

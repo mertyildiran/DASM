@@ -3,30 +3,11 @@
 // Variable names cannot start with 0-9.
 // hexadecimals are twos complement.
 // first address of the code section is zero, data section follows the code section.
-//fout tables are formed: jump table, ldi table, label table and variable table.
+// fout tables are formed: jump table, ldi table, label table and variable table.
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-
-//Converts a hexadecimal string to integer.
-int hex2int(char* hex)
-{
-	int result=0;
-
-	while ((*hex)!='\0')
-	{
-		if (('0'<=(*hex))&&((*hex)<='9'))
-			result = result*16 + (*hex) -'0';
-		else if (('a'<=(*hex))&&((*hex)<='f'))
-			result = result*16 + (*hex) -'a'+10;
-		else if (('A'<=(*hex))&&((*hex)<='F'))
-			result = result*16 + (*hex) -'A'+10;
-		hex++;
-	}
-	return(result);
-}
 
 
 main(int argc, char *argv[])
@@ -38,8 +19,8 @@ main(int argc, char *argv[])
 	}
 
 	FILE *fp;
-        char line[100];
-        char *token = NULL;
+    char line[100];
+    char *token = NULL;
 	char *op1, *op2, *op3, *label;
 	char ch;
 	int  chch;
@@ -129,10 +110,10 @@ main(int argc, char *argv[])
 				{
 					op1 = strtok(NULL,"\n\t\r ");                                //get the 1st operand of ldi, which is the register that ldi loads
 					op2 = strtok(NULL,"\n\t\r ");                                //get the 2nd operand of ldi, which is the data that is to be loaded
-					program[counter]=0x1000+hex2int(op1);                        //generate the first 16-bit of the ldi instruction
+					program[counter]=0x1000+(int)strtol(op1, NULL, 0);                        //generate the first 16-bit of the ldi instruction
 					counter++;                                                   //move to the second 16-bit of the ldi instruction
 					if ((op2[0]=='0')&&(op2[1]=='x'))                            //if the 2nd operand is twos complement hexadecimal
-						program[counter]=hex2int(op2+2)&0xffff;              //convert it to integer and form the second 16-bit
+						program[counter]=(int)strtol(op2+2, NULL, 0)&0xffff;              //convert it to integer and form the second 16-bit
 					else if ((  (op2[0])=='-') || ((op2[0]>='0')&&(op2[0]<='9')))       //if the 2nd operand is decimal
 						program[counter]=atoi(op2)&0xffff;                         //convert it to integer and form the second 16-bit
 					else                                                           //if the second operand is not decimal or hexadecimal, it is a laber or a variable.
@@ -283,7 +264,7 @@ main(int argc, char *argv[])
 					dataarea+=atoi(token);
 				}
 				else if((token[0]=='0')&&(token[1]=='x'))
-					program[counter+dataarea]=hex2int(token+2)&0xffff;
+					program[counter+dataarea]=(int)strtol(token+2, NULL, 0)&0xffff;
 				else if ((  (token[0])=='-') || ('0'<=(token[0])&&(token[0]<='9'))  )
 					program[counter+dataarea]=atoi(token)&0xffff;
 				noofvariables++;
