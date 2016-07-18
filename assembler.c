@@ -264,7 +264,7 @@ main(int argc, char *argv[])
 					dataarea+=atoi(token);
 				}
 				else if((token[0]=='0')&&(token[1]=='x'))
-					program[counter+dataarea]=(int)strtol(token+2, NULL, 0)&0xffff;
+					program[counter+dataarea]=(int)strtol(token, NULL, 0)&0xffff;
 				else if ((  (token[0])=='-') || ('0'<=(token[0])&&(token[0]<='9'))  )
 					program[counter+dataarea]=atoi(token)&0xffff;
 				noofvariables++;
