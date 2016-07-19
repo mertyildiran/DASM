@@ -8,6 +8,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+
+
+char *strupr(char *str)
+{
+  unsigned char *p = (unsigned char *)str;
+
+  while (*p) {
+     *p = toupper(*p);
+      p++;
+  }
+
+  return str;
+}
 
 
 main(int argc, char *argv[])
@@ -96,8 +110,11 @@ main(int argc, char *argv[])
 		while(fgets(line,sizeof line,fp)!= NULL)  //skip till .code section
 		{
 			token=strtok(line,"\n\t\r ");
-			if (strcmp(token,".code")==0 )
+			if (strcmp(token,".code")==0)
+			{
+				printf("\nsegment .code\n");
 				break;
+			}
 		}
 		while(fgets(line,sizeof line,fp)!= NULL)
 		{
@@ -110,7 +127,9 @@ main(int argc, char *argv[])
 				{
 					op1 = strtok(NULL,"\n\t\r ");                                //get the 1st operand of ldi, which is the register that ldi loads
 					op2 = strtok(NULL,"\n\t\r ");                                //get the 2nd operand of ldi, which is the data that is to be loaded
+					printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);			// print instruction
 					program[counter]=0x1000+(int)strtol(op1, NULL, 0);                        //generate the first 16-bit of the ldi instruction
+					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;                                                   //move to the second 16-bit of the ldi instruction
 					if ((op2[0]=='0')&&(op2[1]=='x'))                            //if the 2nd operand is twos complement hexadecimal
 						program[counter]=(int)strtol(op2+2, NULL, 0)&0xffff;              //convert it to integer and form the second 16-bit
@@ -124,6 +143,7 @@ main(int argc, char *argv[])
 						lditable[noofldis].name = op1;
 						noofldis++;
 					}
+					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;                                                     //skip to the next memory location
 				}
 
@@ -131,8 +151,10 @@ main(int argc, char *argv[])
 				{
 					op1 = strtok(NULL,"\n\t\r ");                //get the 1st operand of ld, which is the destination register
 					op2 = strtok(NULL,"\n\t\r ");                //get the 2nd operand of ld, which is the source register
+					printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
 					ch = (op1[0]-48)| ((op2[0]-48) << 3);        //form bits 11-0 of machine code. 48 is ASCII value of '0'
 					program[counter]=0x2000+((ch)&0x00ff);       //form the instruction and write it to memory
+					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;                                   //skip to the next empty location in memory
 				}
 				else if (strcmp(token,"st")==0) //-------------ST INSTRUCTION--------------------
@@ -146,12 +168,14 @@ main(int argc, char *argv[])
 				else if (strcmp(token,"jmp")==0)  //-------------- JUMP -----------------------------
 				{
 					op1 = strtok(NULL,"\n\t\r ");			//read the label
+					printf("\n\t%s\t%s\n",strupr(token),op1);
 					jumptable[noofjumps].location = counter;	//write the jz instruction's location into the jumptable
 					op2=(char*)malloc(sizeof(op1)); 		//allocate space for the label
 					strcpy(op2,op1);				//copy the label into the allocated space
 					jumptable[noofjumps].label=op2;			//point to the label from the jumptable
 					noofjumps++;					//skip to the next empty location in jumptable
 					program[counter]=0x5000;			//write the incomplete instruction (just opcode) to memory
+					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;					//skip to the next empty location in memory.
 				}
 				else if (strcmp(token,"add")==0) //----------------- ADD -------------------------------
@@ -159,8 +183,10 @@ main(int argc, char *argv[])
 					op1 = strtok(NULL,"\n\t\r ");
 					op2 = strtok(NULL,"\n\t\r ");
 					op3 = strtok(NULL,"\n\t\r ");
+					printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
 					chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
 					program[counter]=0x7000+((chch)&0x00ff);
+					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
 				else if (strcmp(token,"sub")==0)
@@ -183,8 +209,10 @@ main(int argc, char *argv[])
 				{
 					op1 = strtok(NULL,"\n\t\r ");
 					op2 = strtok(NULL,"\n\t\r ");
+					printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
 					ch = (op1[0]-48)| ((op2[0]-48)<<3);
 					program[counter]=0x7500+((ch)&0x00ff);
+					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
 				else if (strcmp(token,"mov")==0)
@@ -194,8 +222,10 @@ main(int argc, char *argv[])
 				else if (strcmp(token,"inc")==0)
 				{
 					op1 = strtok(NULL,"\n\t\r ");
+					printf("\n\t%s\t%s\n",strupr(token),op1);
 					ch = (op1[0]-48)| ((op1[0]-48)<<3);
 					program[counter]=0x7700+((ch)&0x00ff);
+					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
 				else if (strcmp(token,"dec")==0)
@@ -235,8 +265,11 @@ main(int argc, char *argv[])
 		while(fgets(line,sizeof line,fp)!= NULL)  //skip till .data, if no .data, also ok.
 		{
 			token=strtok(line,"\n\t\r ");
-			if (strcmp(token,".data")==0 )
+			if (strcmp(token,".data")==0)
+			{
+				printf("\nsegment .data\n");
 				break;
+			}
 
 		}
 
@@ -246,8 +279,11 @@ main(int argc, char *argv[])
  		while(fgets(line,sizeof line,fp)!= NULL)
 		{
 			token=strtok(line,"\n\t\r ");
-			if (strcmp(token,".code")==0 )  //go till the .code segment
+			if (strcmp(token,".code")==0)  //go till the .code segment
+			{
+				printf("\nsegment .code\n");
 				break;
+			}
 			else if (token[strlen(token)-1]==':')
 			{
 				token[strlen(token)-1]='\0';  //will not cause memory leak, as we do not do malloc
