@@ -38,6 +38,7 @@ main(int argc, char *argv[])
 	char *op1, *op2, *op3, *label;
 	char ch;
 	int  chch;
+    char sp = '9';
 
 	int program[1000];
 	int counter=0;  //holds the address of the machine code instruction
@@ -254,7 +255,7 @@ main(int argc, char *argv[])
 					op2 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
 					ch = (op1[0]-48) | ((op2[0]-48)<<3);
-					program[counter]=0x7500+((ch)&0x00ff);
+					program[counter]=0x7500+((ch)&0x00ff); // 7 opcode of ALU operations, 5 ALU code of not operation
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
@@ -264,7 +265,7 @@ main(int argc, char *argv[])
 					op2 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
 					ch = (op1[0]-48) | ((op2[0]-48)<<3);
-					program[counter]=0x7600+((ch)&0x00ff);
+					program[counter]=0x7600+((ch)&0x00ff); // 7 opcode of ALU operations, 6 ALU code of MOV operation
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
@@ -273,7 +274,7 @@ main(int argc, char *argv[])
 					op1 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s\n",strupr(token),op1);
 					ch = (op1[0]-48) | ((op1[0]-48)<<3);
-					program[counter]=0x7700+((ch)&0x00ff);
+					program[counter]=0x7700+((ch)&0x00ff); // 7 opcode of ALU operations, 7 ALU code of INC operation
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
@@ -282,10 +283,59 @@ main(int argc, char *argv[])
                     op1 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s\n",strupr(token),op1);
 					ch = (op1[0]-48) | ((op1[0]-48)<<3);
-					program[counter]=0x7800+((ch)&0x00ff);
+					program[counter]=0x7800+((ch)&0x00ff); // 7 opcode of ALU operations, 8 ALU code of DEC operation
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
+                else if (strcmp(token,"push")==0) // PUSH instruction: combination of 4 DEC and 1 ST instruction on Stack Pointer (SP)
+                {
+                    op1 = strtok(NULL,"\n\t\r ");
+                    op2[0] = sp; // Let's say address of SP is 9
+                    printf("\n\t%s\t%s\n",strupr(token),op1);
+                    ch = (op2[0]-48) | ((op2[0]-48)<<3); // Prepare bitwise instruction format for DEC instructions
+                    program[counter]=0x7800+((ch)&0x00ff); // Decrease Stack Pointer 4 times
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                    program[counter]=0x7800+((ch)&0x00ff); // Decrease Stack Pointer 4 times
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                    program[counter]=0x7800+((ch)&0x00ff); // Decrease Stack Pointer 4 times
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                    program[counter]=0x7800+((ch)&0x00ff); // Decrease Stack Pointer 4 times
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+
+                    ch = ((op1[0]-48) << 2) | ((op2[0]-48) << 6); // Prepare bitwise instruction format for ST instruction
+                    program[counter]=0x3000+((ch)&0x00ff); // Store the value in Stack
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                }
+                else if (strcmp(token,"pop")==0) // POP instruction: combination of 1 LD and 4 INC instructions on Stack Pointer (SP)
+                {
+                    op1 = strtok(NULL,"\n\t\r ");
+                    op2[0] = sp; // Let's say address of SP is 9
+                    printf("\n\t%s\t%s\n",strupr(token),op1);
+
+                    ch = (op1[0]-48) | ((op2[0]-48) << 3); // Prepare bitwise instruction format for LD instruction
+                    program[counter]=0x2000+((ch)&0x00ff); // Store the value in Stack
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+
+                    ch = (op2[0]-48) | ((op2[0]-48)<<3); // Prepare bitwise instruction format for INC instructions
+                    program[counter]=0x7700+((ch)&0x00ff); // Decrease Stack Pointer 4 times
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                    program[counter]=0x7700+((ch)&0x00ff); // Decrease Stack Pointer 4 times
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                    program[counter]=0x7700+((ch)&0x00ff); // Decrease Stack Pointer 4 times
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                    program[counter]=0x7700+((ch)&0x00ff); // Decrease Stack Pointer 4 times
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                }
 				else //------WHAT IS ENCOUNTERED IS NOT AN INSTRUCTION BUT A LABEL. UPDATE THE LABEL TABLE--------
 				{
 					labeltable[nooflabels].location = counter;  //buraya bir counter koy. error check
