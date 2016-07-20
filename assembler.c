@@ -200,25 +200,53 @@ main(int argc, char *argv[])
 					op3 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
 					chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
-					program[counter]=0x7000+((chch)&0x00ff); // 7 opcode of ALU operations, 1 ALU code of ADD operation
+					program[counter]=0x7000+((chch)&0x00ff); // 7 opcode of ALU operations, 0 ALU code of ADD operation
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
 				else if (strcmp(token,"sub")==0)
 				{
-					//to be added
+                    op1 = strtok(NULL,"\n\t\r ");
+                    op2 = strtok(NULL,"\n\t\r ");
+                    op3 = strtok(NULL,"\n\t\r ");
+                    printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
+                    chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+                    program[counter]=0x7100+((chch)&0x00ff); // 7 opcode of ALU operations, 1 ALU code of SUB operation
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
 				}
 				else if (strcmp(token,"and")==0)
 				{
-					//to be added
+                    op1 = strtok(NULL,"\n\t\r ");
+                    op2 = strtok(NULL,"\n\t\r ");
+                    op3 = strtok(NULL,"\n\t\r ");
+                    printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
+                    chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+                    program[counter]=0x7200+((chch)&0x00ff); // 7 opcode of ALU operations, 2 ALU code of AND operation
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
 				}
 				else if (strcmp(token,"or")==0)
 				{
-					//to be added
+                    op1 = strtok(NULL,"\n\t\r ");
+                    op2 = strtok(NULL,"\n\t\r ");
+                    op3 = strtok(NULL,"\n\t\r ");
+                    printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
+                    chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+                    program[counter]=0x7300+((chch)&0x00ff); // 7 opcode of ALU operations, 3 ALU code of OR operation
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
 				}
 				else if (strcmp(token,"xor")==0)
 				{
-					//to be added
+                    op1 = strtok(NULL,"\n\t\r ");
+                    op2 = strtok(NULL,"\n\t\r ");
+                    op3 = strtok(NULL,"\n\t\r ");
+                    printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
+                    chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+                    program[counter]=0x7400+((chch)&0x00ff); // 7 opcode of ALU operations, 4 ALU code of OR operation
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
 				}
 				else if (strcmp(token,"not")==0)
 				{
