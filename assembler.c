@@ -103,7 +103,9 @@ main(int argc, char *argv[])
 	int noofldis=0;
 
 
-
+//========================================   LABEL BLOCK  ======================================================
+// On this block assembler will read all file from beginning to end for learning the lables
+// This block must executed first for the purpose of supplying label parameters for JZ, JMP - jump related instructions
 
 	fp = fopen(argv[1],"r");
 
@@ -150,6 +152,8 @@ main(int argc, char *argv[])
 
     }
 
+//========================================   LABEL BLOCK  ======================================================
+
     fp = fopen(argv[1],"r");
 
     if (fp != NULL)
@@ -194,7 +198,6 @@ main(int argc, char *argv[])
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;                                                     //skip to the next memory location
 				}
-
 				else if (strcmp(token,"ld")==0)      //------------LD INSTRUCTION---------------------
 				{
 					op1 = strtok(NULL,"\n\t\r ");                //get the 1st operand of ld, which is the destination register
@@ -377,6 +380,22 @@ main(int argc, char *argv[])
 					program[counter]=0x9000+((ch)&0x00ff); // 7 opcode of ALU operations, 8 ALU code of DEC operation
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
+                }
+                else if (strcmp(token,"call")==0) // POP instruction: combination of 1 LD and 4 INC instructions on Stack Pointer (SP)
+                {
+                    op1 = strtok(NULL,"\n\t\r ");
+                    printf("\n\t%s\t%s\n",strupr(token),op1);
+                    ch = (op1[0]-48);
+                    program[counter]=0xa000+((ch)&0x00ff); // 7 opcode of ALU operations, 8 ALU code of DEC operation
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
+                }
+                else if (strcmp(token,"ret")==0) // POP instruction: combination of 1 LD and 4 INC instructions on Stack Pointer (SP)
+                {
+                    printf("\n\t%s\n",strupr(token));
+                    program[counter]=0xb000; // 7 opcode of ALU operations, 8 ALU code of DEC operation
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;
                 }
 
 				token = strtok(NULL,",\n\t\r ");

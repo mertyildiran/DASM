@@ -33,13 +33,15 @@ Opcodes are 4 bits, and there are 16 different instruction types:
 | 7                       | ADD, SUB, AND, OR, NOT,  XOR, MOV, INC, DEC | ALU operations     |
 | 8                       | PUSH                                        | Push to stack      |
 | 9                       | POP                                         | Pop from stack     |
+| A                       | CALL                                        | Call a procedure   |
+| B                       | RET                                         | Return from a proc.|
 
 Later on, we will add the instructions PUSH, POP, CALL and RET to this list. Note that all these instructions require a stack, and therefore we have to implement a stack and a SP register before implementing them.
 
 
 ### Version
 
-0.2.1
+0.2.2
 
 ### Installation
 
