@@ -260,7 +260,13 @@ main(int argc, char *argv[])
 				}
 				else if (strcmp(token,"mov")==0)
 				{
-					//to be added
+                    op1 = strtok(NULL,"\n\t\r ");
+					op2 = strtok(NULL,"\n\t\r ");
+					printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
+					ch = (op1[0]-48) | ((op2[0]-48)<<3);
+					program[counter]=0x7600+((ch)&0x00ff);
+					printf("> %d\t%04x\n",counter,program[counter]);
+					counter++;
 				}
 				else if (strcmp(token,"inc")==0)
 				{
@@ -273,7 +279,12 @@ main(int argc, char *argv[])
 				}
 				else if (strcmp(token,"dec")==0)
 				{
-                                  	//to be added
+                    op1 = strtok(NULL,"\n\t\r ");
+					printf("\n\t%s\t%s\n",strupr(token),op1);
+					ch = (op1[0]-48) | ((op1[0]-48)<<3);
+					program[counter]=0x7800+((ch)&0x00ff);
+					printf("> %d\t%04x\n",counter,program[counter]);
+					counter++;
 				}
 				else //------WHAT IS ENCOUNTERED IS NOT AN INSTRUCTION BUT A LABEL. UPDATE THE LABEL TABLE--------
 				{
