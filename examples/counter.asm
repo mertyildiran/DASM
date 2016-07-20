@@ -8,10 +8,13 @@
        	ldi 1 array
        	ldi 2 char
        	ld  2 2
-lpp  	st 1 2
+lpp:
+        st 1 2
        	inc 1
        	dec 0
        	jz loop
        	jmp lpp
-loop 	sub 1 2 3
-lp1  	jmp lp1  
+loop:
+        sub 1 2 3
+lp1:
+        jmp lp1

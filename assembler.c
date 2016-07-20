@@ -39,6 +39,7 @@ main(int argc, char *argv[])
 	char ch;
 	int  chch;
     char sp = '9';
+    int jumpdistance;
 
 	int program[1000];
 	int counter=0;  //holds the address of the machine code instruction
@@ -108,7 +109,53 @@ main(int argc, char *argv[])
 
 	if (fp != NULL)
 	{
+        counter = 0;
+        while(fgets(line,sizeof line,fp)!= NULL)  //skip till .code section
+		{
+			token=strtok(line,"\n\t\r ");
+			if (strcmp(token,".code")==0)
+			{
+				printf("\nsegment .code\n");
+				break;
+			}
+		}
 		while(fgets(line,sizeof line,fp)!= NULL)  //skip till .code section
+		{
+			token=strtok(line,"\n\t\r ");
+			if (token[strlen(token) - 1] == ':')
+			{
+				char *p = token;
+                p[strlen(token)-1] = 0;
+                printf("label\t%s\t%d\n", token, counter);
+
+                labeltable[nooflabels].location = counter;  //buraya bir counter koy. error check
+                op1=(char*)malloc(sizeof(token));
+                strcpy(op1,token);
+                labeltable[nooflabels].label=op1;
+                nooflabels++;
+
+                counter--;
+			}
+
+            if (strcmp(token,"ldi")==0)
+            {
+                counter++;
+                counter++;
+            }
+            else
+            {
+                counter++;
+            }
+		}
+
+    }
+
+    fp = fopen(argv[1],"r");
+
+    if (fp != NULL)
+    {
+        counter = 0;
+        while(fgets(line,sizeof line,fp)!= NULL)  //skip till .code section
 		{
 			token=strtok(line,"\n\t\r ");
 			if (strcmp(token,".code")==0)
@@ -177,7 +224,20 @@ main(int argc, char *argv[])
                     strcpy(op2,op1);				//copy the label into the allocated space
                     jumptable[noofjumps].label=op2;			//point to the label from the jumptable
                     noofjumps++;					//skip to the next empty location in jumptable
-                    program[counter]=0x4000;			//write the incomplete instruction (just opcode) to memory
+
+                    program[counter]=0x4000;
+                    int n;
+                    for(n = 0; n < nooflabels; n++)
+                    {
+                        if (strcmp(labeltable[n].label,op1)==0)
+                        {
+                            jumpdistance = counter - labeltable[n].location;
+                            //printf("%d\t%d\t%d\n", counter,labeltable[n].location,jumpdistance);
+                            program[counter]=0x4000+0x0fff-jumpdistance;
+
+                        }
+                    }
+
                     printf("> %d\t%04x\n",counter,program[counter]);
                     counter++;					//skip to the next empty location in memory.
 				}
@@ -190,7 +250,20 @@ main(int argc, char *argv[])
 					strcpy(op2,op1);				//copy the label into the allocated space
 					jumptable[noofjumps].label=op2;			//point to the label from the jumptable
 					noofjumps++;					//skip to the next empty location in jumptable
+
 					program[counter]=0x5000;			//write the incomplete instruction (just opcode) to memory
+                    int n;
+                    for(n = 0; n < nooflabels; n++)
+                    {
+                        if (strcmp(labeltable[n].label,op1)==0)
+                        {
+                            jumpdistance = counter - labeltable[n].location;
+                            //printf("%d\t%d\t%d\n", counter,labeltable[n].location,jumpdistance);
+                            program[counter]=0x5000+0x0fff-jumpdistance;
+
+                        }
+                    }
+
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;					//skip to the next empty location in memory.
 				}
@@ -336,14 +409,7 @@ main(int argc, char *argv[])
                     printf("> %d\t%04x\n",counter,program[counter]);
                     counter++;
                 }
-				else //------WHAT IS ENCOUNTERED IS NOT AN INSTRUCTION BUT A LABEL. UPDATE THE LABEL TABLE--------
-				{
-					labeltable[nooflabels].location = counter;  //buraya bir counter koy. error check
-					op1=(char*)malloc(sizeof(token));
-					strcpy(op1,token);
-					labeltable[nooflabels].label=op1;
-					nooflabels++;
-				}
+
 				token = strtok(NULL,",\n\t\r ");
 			}
 		}
