@@ -159,7 +159,13 @@ main(int argc, char *argv[])
 				}
 				else if (strcmp(token,"st")==0) //-------------ST INSTRUCTION--------------------
 				{
-					//to be added
+                    op1 = strtok(NULL,"\n\t\r ");                //get the 1st operand of ld, which is the destination register
+                    op2 = strtok(NULL,"\n\t\r ");                //get the 2nd operand of ld, which is the source register
+                    printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
+                    ch = (op1[0]-48)| ((op2[0]-48) << 3);        //form bits 11-0 of machine code. 48 is ASCII value of '0'
+                    program[counter]=0x3000+((ch)&0x00ff);       //form the instruction and write it to memory
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;                                   //skip to the next empty location in memory
 				}
 				else if (strcmp(token,"jz")==0) //------------- CONDITIONAL JUMP ------------------
 				{
