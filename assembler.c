@@ -169,13 +169,22 @@ main(int argc, char *argv[])
 				}
 				else if (strcmp(token,"jz")==0) //------------- CONDITIONAL JUMP ------------------
 				{
-					//to be added
+                    op1 = strtok(NULL,"\n\t\r ");			//read the label
+                    printf("\n\t%s\t%s\n",strupr(token),op1);
+                    jumptable[noofjumps].location = counter;	//write the jz instruction's location into the jumptable
+                    op2=(char*)malloc(sizeof(op1)); 		//allocate space for the label
+                    strcpy(op2,op1);				//copy the label into the allocated space
+                    jumptable[noofjumps].label=op2;			//point to the label from the jumptable
+                    noofjumps++;					//skip to the next empty location in jumptable
+                    program[counter]=0x4000;			//write the incomplete instruction (just opcode) to memory
+                    printf("> %d\t%04x\n",counter,program[counter]);
+                    counter++;					//skip to the next empty location in memory.
 				}
 				else if (strcmp(token,"jmp")==0)  //-------------- JUMP -----------------------------
 				{
 					op1 = strtok(NULL,"\n\t\r ");			//read the label
 					printf("\n\t%s\t%s\n",strupr(token),op1);
-					jumptable[noofjumps].location = counter;	//write the jz instruction's location into the jumptable
+					jumptable[noofjumps].location = counter;	//write the jmp instruction's location into the jumptable
 					op2=(char*)malloc(sizeof(op1)); 		//allocate space for the label
 					strcpy(op2,op1);				//copy the label into the allocated space
 					jumptable[noofjumps].label=op2;			//point to the label from the jumptable
@@ -191,7 +200,7 @@ main(int argc, char *argv[])
 					op3 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
 					chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
-					program[counter]=0x7000+((chch)&0x00ff);
+					program[counter]=0x7000+((chch)&0x00ff); // 7 opcode of ALU operations, 1 ALU code of ADD operation
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
 				}
