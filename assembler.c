@@ -152,7 +152,7 @@ main(int argc, char *argv[])
 					op1 = strtok(NULL,"\n\t\r ");                //get the 1st operand of ld, which is the destination register
 					op2 = strtok(NULL,"\n\t\r ");                //get the 2nd operand of ld, which is the source register
 					printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
-					ch = (op1[0]-48)| ((op2[0]-48) << 3);        //form bits 11-0 of machine code. 48 is ASCII value of '0'
+					ch = (op1[0]-48) | ((op2[0]-48) << 3);        //form bits 11-0 of machine code. 48 is ASCII value of '0'
 					program[counter]=0x2000+((ch)&0x00ff);       //form the instruction and write it to memory
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;                                   //skip to the next empty location in memory
@@ -162,7 +162,7 @@ main(int argc, char *argv[])
                     op1 = strtok(NULL,"\n\t\r ");                //get the 1st operand of ld, which is the destination register
                     op2 = strtok(NULL,"\n\t\r ");                //get the 2nd operand of ld, which is the source register
                     printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
-                    ch = (op1[0]-48)| ((op2[0]-48) << 3);        //form bits 11-0 of machine code. 48 is ASCII value of '0'
+                    ch = ((op1[0]-48) << 2) | ((op2[0]-48) << 6);        //form bits 11-0 of machine code. 48 is ASCII value of '0'
                     program[counter]=0x3000+((ch)&0x00ff);       //form the instruction and write it to memory
                     printf("> %d\t%04x\n",counter,program[counter]);
                     counter++;                                   //skip to the next empty location in memory
@@ -199,7 +199,7 @@ main(int argc, char *argv[])
 					op2 = strtok(NULL,"\n\t\r ");
 					op3 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
-					chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+					chch = (op1[0]-48) | ((op2[0]-48)<<3) | ((op3[0]-48)<<6);
 					program[counter]=0x7000+((chch)&0x00ff); // 7 opcode of ALU operations, 0 ALU code of ADD operation
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
@@ -210,7 +210,7 @@ main(int argc, char *argv[])
                     op2 = strtok(NULL,"\n\t\r ");
                     op3 = strtok(NULL,"\n\t\r ");
                     printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
-                    chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+                    chch = (op1[0]-48) | ((op2[0]-48)<<3) | ((op3[0]-48)<<6);
                     program[counter]=0x7100+((chch)&0x00ff); // 7 opcode of ALU operations, 1 ALU code of SUB operation
                     printf("> %d\t%04x\n",counter,program[counter]);
                     counter++;
@@ -221,7 +221,7 @@ main(int argc, char *argv[])
                     op2 = strtok(NULL,"\n\t\r ");
                     op3 = strtok(NULL,"\n\t\r ");
                     printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
-                    chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+                    chch = (op1[0]-48) | ((op2[0]-48)<<3) | ((op3[0]-48)<<6);
                     program[counter]=0x7200+((chch)&0x00ff); // 7 opcode of ALU operations, 2 ALU code of AND operation
                     printf("> %d\t%04x\n",counter,program[counter]);
                     counter++;
@@ -232,7 +232,7 @@ main(int argc, char *argv[])
                     op2 = strtok(NULL,"\n\t\r ");
                     op3 = strtok(NULL,"\n\t\r ");
                     printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
-                    chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+                    chch = (op1[0]-48) | ((op2[0]-48)<<3) | ((op3[0]-48)<<6);
                     program[counter]=0x7300+((chch)&0x00ff); // 7 opcode of ALU operations, 3 ALU code of OR operation
                     printf("> %d\t%04x\n",counter,program[counter]);
                     counter++;
@@ -243,7 +243,7 @@ main(int argc, char *argv[])
                     op2 = strtok(NULL,"\n\t\r ");
                     op3 = strtok(NULL,"\n\t\r ");
                     printf("\n\t%s\t%s   %s   %s\n",strupr(token),op1,op2,op3);
-                    chch = (op1[0]-48)| ((op2[0]-48)<<3)|((op3[0]-48)<<6);
+                    chch = (op1[0]-48) | ((op2[0]-48)<<3) | ((op3[0]-48)<<6);
                     program[counter]=0x7400+((chch)&0x00ff); // 7 opcode of ALU operations, 4 ALU code of OR operation
                     printf("> %d\t%04x\n",counter,program[counter]);
                     counter++;
@@ -253,7 +253,7 @@ main(int argc, char *argv[])
 					op1 = strtok(NULL,"\n\t\r ");
 					op2 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s   %s\n",strupr(token),op1,op2);
-					ch = (op1[0]-48)| ((op2[0]-48)<<3);
+					ch = (op1[0]-48) | ((op2[0]-48)<<3);
 					program[counter]=0x7500+((ch)&0x00ff);
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
@@ -266,7 +266,7 @@ main(int argc, char *argv[])
 				{
 					op1 = strtok(NULL,"\n\t\r ");
 					printf("\n\t%s\t%s\n",strupr(token),op1);
-					ch = (op1[0]-48)| ((op1[0]-48)<<3);
+					ch = (op1[0]-48) | ((op1[0]-48)<<3);
 					program[counter]=0x7700+((ch)&0x00ff);
 					printf("> %d\t%04x\n",counter,program[counter]);
 					counter++;
