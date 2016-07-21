@@ -41,7 +41,7 @@ Later on, we will add the instructions PUSH, POP, CALL and RET to this list. Not
 
 ### Version
 
-0.2.5
+0.2.6
 
 ### Installation
 
