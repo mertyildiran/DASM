@@ -18,6 +18,8 @@ Two addressing modes will be used:
 - Register indirect: Uses the contents of a general purpose register as a pointer to a memory location(used by load/store instructions)
 - PC relative: Adds the offset contained in the instruction to the contents of PC to obtain a pointer to a memory location (used by jump instructions)
 
+Please scroll down for diagrams of the architecture.
+
 ## Instruction set
 
 Opcodes are 4 bits, and there are 16 different instruction types:
@@ -41,7 +43,7 @@ Later on, we will add the instructions PUSH, POP, CALL and RET to this list. Not
 
 ### Version
 
-0.2.7
+0.2.8
 
 ### Installation
 
@@ -69,6 +71,14 @@ dasm example.asm
 Asst. Prof. Mehmet Kadir Baran at Marmara University
 
 for [this](http://marmara-cse-lectures.com/comparch/) magnificent educational material about Microprocessors and for giving Dragon Assembler a head start with his example source code for a simple assembler.
+
+## Diagrams
+
+![Main](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/main.png)
+![ALU](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/ALU.png)
+![GPRs](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/GPRs.png)
+![IR](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/IR.png)
+![PC](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/PC.png)
 
 ### License
 
