@@ -43,7 +43,7 @@ Later on, we will add the instructions PUSH, POP, CALL and RET to this list. Not
 
 ### Version
 
-0.2.8
+0.2.9
 
 ### Installation
 
@@ -75,10 +75,16 @@ for [this](http://marmara-cse-lectures.com/comparch/) magnificent educational ma
 ## Diagrams
 
 ![Main](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/main.png)
+
 ![ALU](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/ALU.png)
+
 ![GPRs](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/GPRs.png)
+
 ![IR](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/IR.png)
+
 ![PC](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/PC.png)
+
+![CU](https://raw.githubusercontent.com/mertyildiran/DASM/master/docs/img/logisim/CU.png)
 
 ### License
 
